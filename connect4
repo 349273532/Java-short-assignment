@@ -1,0 +1,10 @@
+/*
+ * first assignment connect4
+ * Date - 20 Sept 2021
+ * Author - Victor Yu
+ * Teaher - Mr.Ho
+ * 2 minutes or less to explain the product
+ */
+public class connect4{
+  public static void main(String[] args){  
+    
