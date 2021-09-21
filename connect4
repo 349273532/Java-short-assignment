@@ -6,30 +6,46 @@
  * 2 minutes or less to explain the product
  */
 public class connect4{
-
-    // This is the array that represents the layout of the game
-    int[][] gridArray = new int[6][7];
-
-    static int player = 0;
-    // 0 represents no one/empty
-    // 1 represents Red 2 represents Yellow
-
-
+  /*
     // Places the coin
-    static void placeCoin(int x){
+    public static void placeCoin(int x){
         // x will be the location of the item
-        if (0 > player){
+        if (0 > x){
             System.out.println();
         }
     }
-
+    */
     // Prints out the game
-    static void printArray(){
-        
+    public static void printArray(int[][] arr){
+      System.out.print("| ");
+      for(int i=0; i<arr.length; i++){
+        for(int j =0; j<arr[0].length; j++){
+          System.out.print(arr[i][j] + " | ");
+        }
+        System.out.println("| ");
+      }
     }
+    public static void setArray(int[][] arr){
+      for(int i=0; i<arr.length; i++){
+        for(int j =0; j<arr[0].length; j++){
+          arr[i][j]= 0;
+        }
+      }
+    }
+        
     public static void main(String[] args){  
 
-    placeCoin(7);
+    // This is the array that represents the layout of the game
+    int[][] gridArray = new int[6][7];
+    
+    int player = 0;
+    // 0 represents no one/empty
+    // 1 represents Red 2 represents Yellow
+
+    
+    setArray(gridArray);
+    printArray(gridArray);
+    //placeCoin(7);
     }
 }
   
