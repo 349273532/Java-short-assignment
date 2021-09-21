@@ -6,5 +6,30 @@
  * 2 minutes or less to explain the product
  */
 public class connect4{
-  public static void main(String[] args){  
-    
+
+    // This is the array that represents the layout of the game
+    int[][] gridArray = new int[6][7];
+
+    static int player = 0;
+    // 0 represents no one/empty
+    // 1 represents Red 2 represents Yellow
+
+
+    // Places the coin
+    static void placeCoin(int x){
+        // x will be the location of the item
+        if (0 > player){
+            System.out.println();
+        }
+    }
+
+    // Prints out the game
+    static void printArray(){
+        
+    }
+    public static void main(String[] args){  
+
+    placeCoin(7);
+    }
+}
+  
