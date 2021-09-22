@@ -17,7 +17,7 @@ public class connect4 {
           }
       }
     */
-    public static void test(char[][] arr){
+    public static void test(char[][] arr) {
         printArray(arr);
     }
 
@@ -80,9 +80,10 @@ public class connect4 {
         return (false); // So VScode stops yelling at me
     }
 
-    public static void playerMove(Scanner reader){
+    public static void playerMove(Scanner reader) {
         int moveSelect;
         moveSelect = reader.nextInt();
+        System.out.println(moveSelect);
     }
 
 
@@ -97,19 +98,18 @@ public class connect4 {
         int player = 1; // 1 represents a player/On | 0 represents ai/Off
 
 
-        gamemode = gamemodeSelection(reader);//returns false for PvP and true PvC
+        gamemode = gamemodeSelection(reader); //returns false for PvP and true PvC
         setArray(gridArray);
-        do{
+        do {
             printArray(gridArray);
-            if (player == 1){// This is the player move
+            if (player == 1) { // This is the player move
                 //Player move
                 playerMove(reader);
                 System.out.println("it is 0");
-                if(gamemode){
+                if (gamemode) {
                     player = 0;
                 }
-            }
-            else{// for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
+            } else { // for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
                 //player
                 System.out.println("It is 1");
                 player = 1;
@@ -118,7 +118,7 @@ public class connect4 {
 
 
 
-        }while(running);
+        } while (running);
         //placeCoin(7);
         reader.close();
     }
