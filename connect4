@@ -17,6 +17,9 @@ public class connect4 {
           }
       }
     */
+    public static void test(char[][] arr){
+        printArray(arr);
+    }
 
     /**
      * Description: Fills the board with a char Nested loop that valorizes the indexes
@@ -49,36 +52,38 @@ public class connect4 {
         }
         System.out.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
     }
-    
+
 
     /**
      * Description: Asks and chooses gamemode for the game
      * @param reader is the Scanner
      */
-    public static int gamemodeSelection(Scanner reader){
+    public static boolean gamemodeSelection(Scanner reader) {
         Boolean stillChoosing = true; //Keeps asking for gamemode till player gives vaild response
 
         do {
-            System.out.println("Do you want to play PvP or PvC");//asks if you want to play pvp 
+            System.out.println("Do you want to play PvP or PvC"); //asks for what you want to play
             String choice = reader.nextLine().toLowerCase();
-        
-            if (choice.equals("pvp")){  //if it's either PvP or PvC it will return and end the method so you don't need to change the boolean 
+
+            if (choice.equals("pvp")) { //if it's either PvP or PvC it will return and end the method so you don't need to change the boolean 
                 System.out.println("You have choosen PvP..." + "\n" + "Player One Starting Now" + "\n");
-                return(0);
-                
-            }
-            else if (choice.equals("pvc")){
+                return (false);
+
+            } else if (choice.equals("pvc")) {
                 System.out.println("You have choosen PvC..." + "\n" + "Player One Starting Now" + "\n");
-                return(1);
-            }
-            else{
+                return (true);
+            } else {
                 System.out.println("Try again...");
             }
         }
-        while(stillChoosing); //keeps it runnning
-        return(0); // So VScode stops yelling at me
+        while (stillChoosing); //keeps it runnning
+        return (false); // So VScode stops yelling at me
     }
 
+    public static void playerMove(Scanner reader){
+        int moveSelect;
+        moveSelect = reader.nextInt();
+    }
 
 
     public static void main(String[] args) {
@@ -86,17 +91,36 @@ public class connect4 {
         // Setting up things 
         char[][] gridArray = new char[6][7]; // This is the array that represents the layout of the game
         Scanner reader = new Scanner(System.in); //Creates the Scanner
-        int PvP = 0; // These are the variblies for the gamemodes 
-        int PvC = 1;
-        int gamemode;
-        //int player = 1; // 1 represents player 1 | 2 represents player 2/ai
 
-        
-        gamemodeSelection(reader);
+        boolean gamemode;
+        boolean running = true;
+        int player = 1; // 1 represents a player/On | 0 represents ai/Off
+
+
+        gamemode = gamemodeSelection(reader);//returns false for PvP and true PvC
         setArray(gridArray);
-        printArray(gridArray);
+        do{
+            printArray(gridArray);
+            if (player == 1){// This is the player move
+                //Player move
+                playerMove(reader);
+                System.out.println("it is 0");
+                if(gamemode){
+                    player = 0;
+                }
+            }
+            else{// for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
+                //player
+                System.out.println("It is 1");
+                player = 1;
+            }
+
+
+
+
+        }while(running);
         //placeCoin(7);
         reader.close();
     }
-    
+
 }
