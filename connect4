@@ -1,51 +1,102 @@
 /*
- * first assignment connect4
+ * Connect 4 assignment
  * Date - 20 Sept 2021
  * Author - Victor Yu
  * Teaher - Mr.Ho
  * 2 minutes or less to explain the product
  */
-public class connect4{
-  /*
-    // Places the coin
-    public static void placeCoin(int x){
-        // x will be the location of the item
-        if (0 > x){
+
+import java.util.Scanner;
+public class connect4 {
+    /*
+      // Places the coin
+      public static void placeCoin(int x){
+          // x will be the location of the item
+          if (0 > x){
+              System.out.println();
+          }
+      }
+    */
+
+    /**
+     * Description: Fills the board with a char Nested loop that valorizes the indexes
+     * @param arr is the array
+     */
+    public static void setArray(char[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+
+                arr[i][j] = '0';
+            }
+        }
+    }
+
+
+    /**
+     * Description: Prints out the board with lines in-between 
+     * Two loops to cycle through the entire array
+     * @param arr is the array
+     */
+    public static void printArray(char[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print("| ");
+
+            for (int j = 0; j < arr[0].length; j++) {
+                System.out.print(arr[i][j] + " | ");
+            }
+
             System.out.println();
         }
+        System.out.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
     }
-    */
-    // Prints out the game
-    public static void printArray(int[][] arr){
-      System.out.print("| ");
-      for(int i=0; i<arr.length; i++){
-        for(int j =0; j<arr[0].length; j++){
-          System.out.print(arr[i][j] + " | ");
-        }
-        System.out.println("| ");
-      }
-    }
-    public static void setArray(int[][] arr){
-      for(int i=0; i<arr.length; i++){
-        for(int j =0; j<arr[0].length; j++){
-          arr[i][j]= 0;
-        }
-      }
-    }
+    
+
+    /**
+     * Description: Asks and chooses gamemode for the game
+     * @param reader is the Scanner
+     */
+    public static int gamemodeSelection(Scanner reader){
+        Boolean stillChoosing = true; //Keeps asking for gamemode till player gives vaild response
+
+        do {
+            System.out.println("Do you want to play PvP or PvC");//asks if you want to play pvp 
+            String choice = reader.nextLine().toLowerCase();
         
-    public static void main(String[] args){  
-
-    // This is the array that represents the layout of the game
-    int[][] gridArray = new int[6][7];
-    
-    int player = 0;
-    // 0 represents no one/empty
-    // 1 represents Red 2 represents Yellow
-
-    
-    setArray(gridArray);
-    printArray(gridArray);
-    //placeCoin(7);
+            if (choice.equals("pvp")){  //if it's either PvP or PvC it will return and end the method so you don't need to change the boolean 
+                System.out.println("You have choosen PvP..." + "\n" + "Player One Starting Now" + "\n");
+                return(0);
+                
+            }
+            else if (choice.equals("pvc")){
+                System.out.println("You have choosen PvC..." + "\n" + "Player One Starting Now" + "\n");
+                return(1);
+            }
+            else{
+                System.out.println("Try again...");
+            }
+        }
+        while(stillChoosing); //keeps it runnning
+        return(0); // So VScode stops yelling at me
     }
+
+
+
+    public static void main(String[] args) {
+
+        // Setting up things 
+        char[][] gridArray = new char[6][7]; // This is the array that represents the layout of the game
+        Scanner reader = new Scanner(System.in); //Creates the Scanner
+        int PvP = 0; // These are the variblies for the gamemodes 
+        int PvC = 1;
+        int gamemode;
+        //int player = 1; // 1 represents player 1 | 2 represents player 2/ai
+
+        
+        gamemodeSelection(reader);
+        setArray(gridArray);
+        printArray(gridArray);
+        //placeCoin(7);
+        reader.close();
+    }
+    
 }
-  
