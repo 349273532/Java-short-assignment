@@ -8,119 +8,144 @@
 
 import java.util.Scanner;
 public class connect4 {
-    /*
-      // Places the coin
-      public static void placeCoin(int x){
-          // x will be the location of the item
-          if (0 > x){
-              System.out.println();
-          }
+  /*
+   // Places the coin
+   public static void placeCoin(int x){
+   // x will be the location of the item
+   if (0 > x){
+   System.out.println();
+   }
+   }
+   */
+  public static void test(int col, char color, char[][] arr) {
+    char symbol = color;
+    for(int i = 0; i < arr.length; i++){
+      System.out.println("This is to check the bottom");
+      if (arr[i][col] == 0){
+        arr[1][2] = 'R';
+        break;
       }
-    */
-    public static void test(char[][] arr) {
-        printArray(arr);
     }
-
-    /**
-     * Description: Fills the board with a char Nested loop that valorizes the indexes
-     * @param arr is the array
-     */
-    public static void setArray(char[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-
-                arr[i][j] = '0';
-            }
+  }
+  
+  /**
+   * Description: Fills the board with a char Nested loop that valorizes the indexes
+   * @param arr is the array
+   */
+  public static void setArray(char[][] arr) {
+    for (int i = 0; i < arr.length; i++) {
+      for (int j = 0; j < arr[0].length; j++) {
+        
+        arr[i][j] = '0';
+      }
+    }
+  }
+  
+  
+  /**
+   * Description: Prints out the board with lines in-between 
+   * Two loops to cycle through the entire array
+   * @param arr is the array
+   */
+  public static void printArray(char[][] arr) {
+    for (int i = 0; i < arr.length; i++) {
+      System.out.print("| ");
+      
+      for (int j = 0; j < arr[0].length; j++) {
+        System.out.print(arr[i][j] + " | ");
+      }
+      
+      System.out.println();
+    }
+    System.out.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+  }
+  
+  
+  /**
+   * Description: Asks and chooses gamemode for the game
+   * @param reader is the Scanner
+   */
+  public static boolean gamemodeSelection(Scanner reader) {
+    Boolean stillChoosing = true; //Keeps asking for gamemode till player gives vaild response
+    
+    do {
+      System.out.println("Do you want to play PvP or PvC"); //asks for what you want to play
+      String choice = reader.nextLine().toLowerCase();
+      
+      if (choice.equals("pvp")) { //if it's either PvP or PvC it will return and end the method so you don't need to change the boolean 
+        System.out.println("You have choosen PvP..." + "\n" + "Player One Starting Now" + "\n");
+        return (false);
+        
+      } else if (choice.equals("pvc")) {
+        System.out.println("You have choosen PvC..." + "\n" + "Player One Starting Now" + "\n");
+        return (true);
+      } else {
+        System.out.println("Try again...");
+      }
+    }
+    while (stillChoosing); //keeps it runnning
+    return (false); // So VScode stops yelling at me
+  }
+  
+  public static void playerMove(Scanner reader) {// selection for the coin placement
+    int moveSelect;
+    moveSelect = reader.nextInt();
+    System.out.println(moveSelect);
+  }
+  
+  public static char colorSwitch(char color){
+    if(color == 'R'){
+      System.out.println(color);
+      return 'Y';
+    }
+    if(color == 'Y'){
+      System.out.println(color);
+      return 'R';
+    }
+    return color;
+  }
+  
+  public static void main(String[] args) {
+    
+    // Setting up things 
+    char[][] gridArray = new char[6][7]; // This is the array that represents the layout of the game
+    Scanner reader = new Scanner(System.in); //Creates the Scanner
+    char playerColor = 'R';
+    boolean gamemode;
+    boolean running = true;
+    int player = 1; // 1 represents a player/On | 0 represents ai/Off
+    
+    
+    gamemode = gamemodeSelection(reader); //returns false for PvP and true PvC
+    setArray(gridArray);
+    colorSwitch(playerColor);
+    do {
+      printArray(gridArray);
+      if (player == 1) { // This is the player move
+        //Player move
+        playerMove(reader);
+        System.out.println("it is 0");
+        test(4, playerColor, gridArray);
+        printArray(gridArray);
+        if (gamemode) {
+          player = 0;
+          playerColor = 'Y';
         }
-    }
-
-
-    /**
-     * Description: Prints out the board with lines in-between 
-     * Two loops to cycle through the entire array
-     * @param arr is the array
-     */
-    public static void printArray(char[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print("| ");
-
-            for (int j = 0; j < arr[0].length; j++) {
-                System.out.print(arr[i][j] + " | ");
-            }
-
-            System.out.println();
-        }
-        System.out.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
-    }
-
-
-    /**
-     * Description: Asks and chooses gamemode for the game
-     * @param reader is the Scanner
-     */
-    public static boolean gamemodeSelection(Scanner reader) {
-        Boolean stillChoosing = true; //Keeps asking for gamemode till player gives vaild response
-
-        do {
-            System.out.println("Do you want to play PvP or PvC"); //asks for what you want to play
-            String choice = reader.nextLine().toLowerCase();
-
-            if (choice.equals("pvp")) { //if it's either PvP or PvC it will return and end the method so you don't need to change the boolean 
-                System.out.println("You have choosen PvP..." + "\n" + "Player One Starting Now" + "\n");
-                return (false);
-
-            } else if (choice.equals("pvc")) {
-                System.out.println("You have choosen PvC..." + "\n" + "Player One Starting Now" + "\n");
-                return (true);
-            } else {
-                System.out.println("Try again...");
-            }
-        }
-        while (stillChoosing); //keeps it runnning
-        return (false); // So VScode stops yelling at me
-    }
-
-    public static void playerMove(Scanner reader) {
-        int moveSelect;
-        moveSelect = reader.nextInt();
-        System.out.println(moveSelect);
-    }
-
-
-    public static void main(String[] args) {
-
-        // Setting up things 
-        char[][] gridArray = new char[6][7]; // This is the array that represents the layout of the game
-        Scanner reader = new Scanner(System.in); //Creates the Scanner
-
-        boolean gamemode;
-        boolean running = true;
-        int player = 1; // 1 represents a player/On | 0 represents ai/Off
-
-
-        gamemode = gamemodeSelection(reader); //returns false for PvP and true PvC
-        setArray(gridArray);
-        do {
-            printArray(gridArray);
-            if (player == 1) { // This is the player move
-                //Player move
-                playerMove(reader);
-                System.out.println("it is 0");
-                if (gamemode) {
-                    player = 0;
-                }
-            } else { // for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
-                //player
-                System.out.println("It is 1");
-                player = 1;
-            }
-
-
-
-
-        } while (running);
-        //placeCoin(7);
-        reader.close();
-    }
-
+        playerColor = colorSwitch(playerColor);
+      }
+      else { // for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
+        //player
+        System.out.println("It is 1");
+        playerColor = colorSwitch(playerColor);
+        player = 1;
+      }
+      
+      
+      
+      
+    }while(running);
+    //placeCoin(7);
+    reader.close();
+    
+  }
 }
