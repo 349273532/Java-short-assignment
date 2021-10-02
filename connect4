@@ -94,13 +94,13 @@ public class connect4 {
       int y = location[1]; // y value
       int winCounter = 0; // Counts until it reaches 4 
       char color = arr[x][y];// takes the color of the symbol
-      while((x < 5 & y < 5)){
-        x++;
-        y++;
-      }
-      while(x > 0 & y > 0){
+      while(x > 0 & y > -1){
         x--;
         y--;
+      }
+      while(x < 5 & y < 6){
+        x++;
+        y++;
         if(Character.compare(arr[x][y], color) == 0){
           winCounter += 1;
           if(winCounter == 4){
@@ -116,11 +116,11 @@ public class connect4 {
       int y = location[1]; // y value
       int winCounter = 0; // Counts until it reaches 4 
       char color = arr[x][y];// takes the color of the symbol
-      while((x > 0 & y < 5)){
+      while((x > 0 & y < 7)){
         x--;
         y++;
       }
-      while(x < 5 & y > 0){
+      while(x < 5 & y > -1){
         x++;
         y--;
         if(Character.compare(arr[x][y], color) == 0){
@@ -199,7 +199,7 @@ public class connect4 {
       System.out.println("What column do you want to place in? (int)"); 
       moveSelect = reader.nextInt() - 1;
       if(moveSelect < 0  || moveSelect >= 7){
-        System.out.println("haha good try \n2please choose a number from 1-7");
+        System.out.println("haha good try \n please choose a number from 1-7");
       }
     }while(moveSelect < 0  || moveSelect >= 7);
       return moveSelect;
