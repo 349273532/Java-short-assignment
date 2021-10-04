@@ -27,6 +27,7 @@ public class connect4 {
                 location[0] = i;
                 location[1] = col;
                 printArray(arr);
+                System.out.println("Nathan was here");
                 //These are the win condition checkers
                 if(i <= 2 && (winCheckVer(arr, location))){//Makes sure it's above the second level and checks if it's a vertical win
                   return(false);//Ends the game
@@ -58,6 +59,7 @@ public class connect4 {
     public static boolean winCheckHor(char[][] arr, int[] location){ 
         int x = location[0]; // x value
         int y = location[1]; // y value
+        System.out.println("Rachel was watching this code get written");
         int winCounter = 0; // Counts until it reaches 4 
         char color = arr[x][y];// takes the color of the symbol
         // this check wincondition for horizontal
@@ -72,6 +74,7 @@ public class connect4 {
                 }
             }
             else{
+              System.out.println("Error");
                 winCounter = 0; 
             }
         }
@@ -82,7 +85,7 @@ public class connect4 {
         int x = location[0];
         int y = location[1];
         if(Character.compare(arr[x][y], arr[x+1][y]) == 0 && Character.compare(arr[x][y], arr[x+2][y]) == 0 && Character.compare(arr[x][y], arr[x+3][y]) == 0){
-            System.out.println("you win Vertically");
+            System.out.println("you win Vertically, Ethan");
             return(true);
         }
         return(false);
@@ -94,21 +97,23 @@ public class connect4 {
       int y = location[1]; // y value
       int winCounter = 0; // Counts until it reaches 4 
       char color = arr[x][y];// takes the color of the symbol
-      while(x > 0 & y > -1){
+      while(x > 0 & y > 0){
         x--;
         y--;
       }
-      while(x < 5 & y < 6){
-        x++;
-        y++;
+      while(x <= 5 & y <= 6){
         if(Character.compare(arr[x][y], color) == 0){
           winCounter += 1;
+          System.out.println("Danny says hi");
           if(winCounter == 4){
-              System.out.println("You win Diagonally left");
+              System.out.println("You win Diagonally left, Jane");
               return(true);
           }
         }
+        x++;
+        y++;
       }
+      
       return(false);
     }
     public static boolean winCheckRightDia(char[][] arr, int[] location){
@@ -116,22 +121,23 @@ public class connect4 {
       int y = location[1]; // y value
       int winCounter = 0; // Counts until it reaches 4 
       char color = arr[x][y];// takes the color of the symbol
-      while((x > 0 & y < 7)){
+      while((x > 0 & y < 6)){
         x--;
         y++;
       }
-      while(x < 5 & y > 02){
-        x++;
-        y--;
+      while(x <= 5 & y >= 0){
         if(Character.compare(arr[x][y], color) == 0){
           winCounter += 1;
           if(winCounter == 4){
-              System.out.println("You win Diagonally right");
+              System.out.println("You win Diagonally right, Nathan");
               return(true);
           }
         }
+        x++;
+        y--;
       }
-      return(false);
+      System.out.print("Error");
+      return(false); // I saw Victor's no no zone once in Elementary School. I can't take the picture visually in my mind but like I'm not gay or anything so how could I forget something this drastic in our friendship. Like I know I am a heterosexual male but like I'm not exactly sure why I can't forget his dong. It's not that big tbh but he could really work on it. Rachel is apprentally the coding messiah but even thinking this way I really dislike.
     }
 
   /**
@@ -141,7 +147,7 @@ public class connect4 {
   public static void setArray(char[][] arr) {
     for (int i = 0; i < arr.length; i++) {
       for (int j = 0; j < arr[0].length; j++) {
-        
+        System.out.println("Don't forget to comment my code");
         arr[i][j] = '0';
       }
     }
@@ -239,8 +245,7 @@ public class connect4 {
         running = coinPlace(playerMove(reader, height, length), playerColor, gridArray, locationSave);
 
         if (gamemode) {
-          player = 0;
-          playerColor = 'Y';
+          player = 0;          playerColor = 'Y';
         }
         playerColor = colorSwitch(playerColor);
       }
