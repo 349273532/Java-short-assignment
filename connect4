@@ -1,148 +1,148 @@
 /*
  * Connect 4 assignment
- * Date - 20 Sept 2021
+ * Date - 5 Oct 2021
  * Author - Victor Yu
  * Teaher - Mr.Ho
  * 2 minutes or less to explain the product
  */
 
 import java.util.Scanner;
+import java.util.Random;
 public class connect4 {
-
+ // YOU need to fix the problem where it sends you win twice
+ //YOU need to add the blocking method by swithcing colors and trying for win blocking off
   
-    /**
-     * Description: This will place the coin at the lowest part of the column choosen possible and check if it is a winning move and end the game if you do a game-winning move
-     * @param col This is the column to play the coin
-     * @param color This is the color of the coin that is going to be placed
-     * @param arr The board
-     * @param location An array used to save the loaction of the palced coin used for wincheck
-     * @return The returns will end the game if a wincondition is met
-     */
-    public static boolean coinPlace(int col, char color, char[][] arr, int[] location) {
-        for(int i = (arr.length - 1); i >= 0; i--){
-            if (Character.compare(arr[i][col], '0') == 0){// This checks if the bottom of the column is empty
-
-              //If the location is empty it will place the color in the slot and save the location
-                arr[i][col] = color; 
-                location[0] = i;
-                location[1] = col;
-                //prints after putting the color
-                printArray(arr);
-
-                //These are the win condition checkers
-                if(winCheckHor(arr, location)){// Checks for horizontal wins
-                  return(false);//Ends the game
-                }
-
-                //Checks only if it's possible to win
-                else if(i <= 2 && (winCheckVer(arr, location))){//Checks for vertical win =
-                  return(false);//Ends the game
-                }
-                else if(i <= 2 && winCheckLeftDia(arr, location)){//Checks for left diagonal win
-                  return(false);
-                }
-                else if(i <= 2 && winCheckRightDia(arr, location)){//check for right diagonal win
-                  return(false);
-                }
-                return(true);//Ends the loop after it finishes placing the coin
-            }
+  /**
+   * Description: This will place the coin at the lowest part of the column choosen possible and check if it is a winning move and end the game if you do a game-winning move
+   * @param col This is the column to play the coin
+   * @param color This is the color of the coin that is going to be placed
+   * @param arr The board
+   * @param location An array used to save the loaction of the palced coin used for wincheck
+   * @return The returns will end the game if a wincondition is met
+   */
+  public static boolean coinPlace(int col, char color, char[][] arr, int[] location) {
+    for(int i = (arr.length - 1); i >= 0; i--){
+      if (Character.compare(arr[i][col], '0') == 0){// This checks if the bottom of the column is empty
+        
+        //If the location is empty it will place the color in the slot and save the location
+        arr[i][col] = color; 
+        location[0] = i;
+        location[1] = col;
+        
+        //These are the win condition checkers
+        if(winCheckHor(arr, location)){// Checks for horizontal wins
+          return(false);//Ends the game
         }
-        System.out.println("This column is full try again");//If the column is full it will tell you to choose another one
-        return(true);
-    }
-
-
-    /**
-     * Description: Checks the horizonal line from where the coin is placed for four in a row and ends the game
-     * @param arr This is the board
-     * @param location The saved location of the placed coin
-     * @return if the returns is true it will end the game if false it will contine 
-     */
-    public static boolean winCheckHor(char[][] arr, int[] location){ 
-        int x = location[0]; // x value
-        int y = location[1]; // y value
-        int winCounter = 0; // Counts until it reaches 4 
-        char color = arr[x][y];// takes the color of the symbol
-
-        //Checks the row that it is on
-        for(int i = 0; i < 7; i ++){
-            if(Character.compare(arr[x][i], color) == 0){ //compares coin and horizontal 
-                winCounter += 1;
-                if(winCounter == 4){ // if there is four in the row it will return true and say you win
-                    System.out.println("You win Horizontally");
-                    return(true);
-                }
-            }
-            else{//if it's not in a row it will break this is the same for all the other win conditions as well
-                winCounter = 0; 
-            }
+        
+        //Checks only if it's possible to win
+        else if(i <= 2 && (winCheckVer(arr, location))){//Checks for vertical win =
+          return(false);//Ends the game
         }
-        return(false);
-    }
-
-    /**
-     * Description: Checks the three underneath the the placed coin to see if it's 4 in a row
-     * @param arr Taking in the board array
-     * @param location taking the location of the piece
-     * @return will return true for if you win returns false for no win
-     */
-    public static boolean winCheckVer(char[][] arr, int[] location){
-        int x = location[0];
-        int y = location[1];
-        if(Character.compare(arr[x][y], arr[x+1][y]) == 0 && Character.compare(arr[x][y], arr[x+2][y]) == 0 && Character.compare(arr[x][y], arr[x+3][y]) == 0){ //C
-            System.out.println("you win Vertically");
-            return(true);
+        else if(i <= 2 && winCheckLeftDia(arr, location)){//Checks for left diagonal win
+          return(false);
         }
-        return(false);
-
-    }
-
-    public static boolean winCheckLeftDia(char[][] arr, int[] location){
-      int x = location[0]; // x value
-      int y = location[1]; // y value
-      int winCounter = 0; // Counts until it reaches 4 
-      char color = arr[x][y];// takes the color of the symbol
-      while(x > 0 & y > 0){
-        x--;
-        y--;
+        else if(i <= 2 && winCheckRightDia(arr, location)){//check for right diagonal win
+          return(false);
+        }
+        return(true);//Ends the loop after it finishes placing the coin
       }
-      while(x <= 5 & y <= 6){
-        if(Character.compare(arr[x][y], color) == 0){
-          winCounter += 1;
-          if(winCounter == 4){
-              System.out.println("You win Diagonally left");
-              return(true);
-          }
-        }
-        x++;
-        y++;
-      }
-      
-      return(false);
     }
-    public static boolean winCheckRightDia(char[][] arr, int[] location){
-      int x = location[0]; // x value
-      int y = location[1]; // y value
-      int winCounter = 0; // Counts until it reaches 4 
-      char color = arr[x][y];// takes the color of the symbol
-      while((x > 0 & y < 6)){
-        x--;
-        y++;
-      }
-      while(x <= 5 & y >= 0){
-        if(Character.compare(arr[x][y], color) == 0){
-          winCounter += 1;
-          if(winCounter == 4){
-              System.out.println("You win Diagonally right");
-              return(true);
-          }
+    System.out.println("This column is full try again");//If the column is full it will tell you to choose another one
+    return(true);
+  }
+  
+  
+  /**
+   * Description: Checks the horizonal line from where the coin is placed for four in a row and ends the game
+   * @param arr This is the board
+   * @param location The saved location of the placed coin
+   * @return if the returns is true it will end the game if false it will contine 
+   */
+  public static boolean winCheckHor(char[][] arr, int[] location){ 
+    int x = location[0]; // x value
+    int y = location[1]; // y value
+    int winCounter = 0; // Counts until it reaches 4 
+    char color = arr[x][y];// takes the color of the symbol
+    
+    //Checks the row that it is on
+    for(int i = 0; i < 7; i ++){
+      if(Character.compare(arr[x][i], color) == 0){ //compares coin and horizontal 
+        winCounter += 1;
+        if(winCounter == 4){ // if there is four in the row it will return true and say you win
+          System.out.println("You win Horizontally");
+          return(true);
         }
-        x++;
-        y--;
       }
-      return(false); 
+      else{//if it's not in a row it will break this is the same for all the other win conditions as well
+        winCounter = 0; 
+      }
     }
-
+    return(false);
+  }
+  
+  /**
+   * Description: Checks the three underneath the the placed coin to see if it's 4 in a row
+   * @param arr Taking in the board array
+   * @param location taking the location of the piece
+   * @return will return true for if you win returns false for no win
+   */
+  public static boolean winCheckVer(char[][] arr, int[] location){
+    int x = location[0];
+    int y = location[1];
+    if(Character.compare(arr[x][y], arr[x+1][y]) == 0 && Character.compare(arr[x][y], arr[x+2][y]) == 0 && Character.compare(arr[x][y], arr[x+3][y]) == 0){ //C
+      System.out.println("you win Vertically");
+      return(true);
+    }
+    return(false);
+    
+  }
+  
+  public static boolean winCheckLeftDia(char[][] arr, int[] location){
+    int x = location[0]; // x value
+    int y = location[1]; // y value
+    int winCounter = 0; // Counts until it reaches 4 
+    char color = arr[x][y];// takes the color of the symbol
+    while(x > 0 & y > 0){
+      x--;
+      y--;
+    }
+    while(x <= 5 & y <= 6){
+      if(Character.compare(arr[x][y], color) == 0){
+        winCounter += 1;
+        if(winCounter == 4){
+          System.out.println("You win Diagonally left");
+          return(true);
+        }
+      }
+      x++;
+      y++;
+    }
+    
+    return(false);
+  }
+  public static boolean winCheckRightDia(char[][] arr, int[] location){
+    int x = location[0]; // x value
+    int y = location[1]; // y value
+    int winCounter = 0; // Counts until it reaches 4 
+    char color = arr[x][y];// takes the color of the symbol
+    while((x > 0 & y < 6)){
+      x--;
+      y++;
+    }
+    while(x <= 5 & y >= 0){
+      if(Character.compare(arr[x][y], color) == 0){
+        winCounter += 1;
+        if(winCounter == 4){
+          System.out.println("You win Diagonally right");
+          return(true);
+        }
+      }
+      x++;
+      y--;
+    }
+    return(false); 
+  }
+  
   /**
    * Description: Fills the board with a char Nested loop that valorizes the indexes
    * @param arr is the array
@@ -192,15 +192,16 @@ public class connect4 {
         
       } else if (choice.equals("pvc")) {
         System.out.println("You have choosen PvC..." + "\n" + "Player One Starting Now" + "\n");
+        //this is where we will make the ai for the connect 4 game
         return (true);
       } else {
         System.out.println("Try again...");
       }
     }
-  return (false);
+    return (false);
   }
   
-
+  
   /**
    * Description: Asks what column you want to put the coin in. Tells you to resubmit your answer if it's not in the range of 1-7 rep the columns
    * @param reader Takes in the reader so that you can take inputs from console
@@ -209,20 +210,20 @@ public class connect4 {
    */
   public static int playerMove(Scanner reader, int width) {// selection for the coin placement
     int moveSelect;
-
+    
     do {
       System.out.println("What column do you want to place in? (int)"); 
       moveSelect = reader.nextInt() - 1;
-
+      
       if(moveSelect < 0  || moveSelect >= width){
         System.out.println("haha good try \n please choose a number from 1-7");
       }
-
+      
     }while(moveSelect < 0  || moveSelect >= width);
-      return moveSelect;
+    return moveSelect;
   }
-
-
+  
+  
   /**
    * Description: Takes in the color and then it changes it to the other color
    * @param color takes in the current color
@@ -238,7 +239,7 @@ public class connect4 {
     return color;
   }
   
-
+  
   public static void main(String[] args) {
     
     // Setting up things 
@@ -257,13 +258,13 @@ public class connect4 {
     setArray(gridArray);
     colorSwitch(playerColor);
     printArray(gridArray);
-
+    
     while(running){
       if (player == 1) { // This is the player move
         //Player move
         running = coinPlace(playerMove(reader, length), playerColor, gridArray, locationSave);
-
-        if (gamemode) {
+        printArray(gridArray);
+        if (gamemode) {//If gamemode is true it will go 
           player = 0;         
           playerColor = 'Y';
         }
@@ -272,10 +273,38 @@ public class connect4 {
       else { // for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
         //player
         playerColor = colorSwitch(playerColor);
+        running = coinPlace(aiMove(playerColor, gridArray, locationSave), playerColor, gridArray, locationSave);
+        printArray(gridArray);
+        playerColor = colorSwitch(playerColor);
         player = 1;
       }      
     }
     reader.close();
     
+  }
+  /**
+   * Description: will check for a win and it will place randomly if there is no win
+   * @param playerColor takes in the color of the coin
+   * @param board takes in the board
+   * @param location cords of coin placed
+   * @return will either return the winning mvoe or it will return a random value
+   */
+  public static int aiMove(char playerColor, char[][] board, int[] location){
+    Random rand = new Random();
+    
+    for(int i = 1; i < 7; i++){ // cycles through and looks for a winning play
+      if(coinPlace(i, playerColor, board, location) == false){// if it is a winning play it will return the spot
+        removeCoin(board, location);
+        return i;
+      }
+      
+      else{//removes the placed coin if it isn't the winning play
+        removeCoin(board, location);
+      }
+    }
+    return rand.nextInt(7);//generate random intv;
+  }
+  public static void removeCoin(char[][] board, int[] location){
+    board[location[0]][location[1]] = '0'; 
   }
 }
