@@ -322,11 +322,11 @@ public class connect4 {
         
         do{
         System.out.println(playerColor + " Move");
-        running = coinPlace(height, playerMove(reader, length), playerColor, gridArray, locationSave);
-        System.out.println(locationSave[0]);
+        running = coinPlace(height, playerMove(reader, length), playerColor, gridArray, locationSave);//asks and plays the move
         }while(running.equals("try again"));
+
         printArray(gridArray);
-        if (gamemode) {//If gamemode is true it will go 
+        if (gamemode) {//if it is pvp it will skip if not it will go to the else
           player = 0;         
           playerColor = 'Y';
         }
@@ -334,9 +334,8 @@ public class connect4 {
       }
       else { // Ai
 
-        
-        playerColor = colorSwitch(playerColor);
-        do{
+        playerColor = colorSwitch(playerColor);//switches the color
+        do{//does all the ai thinking and places the coin on the desion it made
         running = coinPlace(height, aiMove(height, playerColor, gridArray, locationSave), playerColor, gridArray, locationSave);
         }while(running.equals("try again"));
         printArray(gridArray);
@@ -344,6 +343,8 @@ public class connect4 {
         player = 1;
       }      
     }
+
+    //End of the game/win screen
     playerColor = colorSwitch(playerColor);
     printArray(gridArray);
     System.out.println(playerColor + " wins the game");
