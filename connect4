@@ -3,14 +3,13 @@
  * Date - 5 Oct 2021
  * Author - Victor Yu
  * Teaher - Mr.Ho
- * 2 minutes or less to explain the product
  */
 
+ //These are my imports
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
 public class connect4 {
- // YOU need to fix the problem where it sends you win twice
- //YOU need to add the blocking method by swithcing colors and trying for win blocking off
   
   /**
    * Description: This will place the coin at the lowest part of the column choosen possible and check if it is a winning move and end the game if you do a game-winning move
@@ -20,7 +19,7 @@ public class connect4 {
    * @param location An array used to save the loaction of the palced coin used for wincheck
    * @return The returns will end the game if a wincondition is met
    */
-  public static boolean coinPlace(int col, char color, char[][] arr, int[] location) {
+  public static String coinPlace(int height, int col, char color, char[][] arr, int[] location){
     for(int i = (arr.length - 1); i >= 0; i--){
       if (Character.compare(arr[i][col], '0') == 0){// This checks if the bottom of the column is empty
         
@@ -30,25 +29,15 @@ public class connect4 {
         location[1] = col;
         
         //These are the win condition checkers
-        if(winCheckHor(arr, location)){// Checks for horizontal wins
-          return(false);//Ends the game
+        if(winCheckHor(arr, location) || ((i <= 2) && (winCheckVer(arr, location))) || (winCheckLeftDia(arr, location)) || (winCheckRightDia(height, arr, location))){
+          return("false");//Ends the game
         }
-        
-        //Checks only if it's possible to win
-        else if(i <= 2 && (winCheckVer(arr, location))){//Checks for vertical win =
-          return(false);//Ends the game
-        }
-        else if(i <= 2 && winCheckLeftDia(arr, location)){//Checks for left diagonal win
-          return(false);
-        }
-        else if(i <= 2 && winCheckRightDia(arr, location)){//check for right diagonal win
-          return(false);
-        }
-        return(true);//Ends the loop after it finishes placing the coin
+        return("true");//Ends the loop after it finishes placing the coin
       }
     }
     System.out.println("This column is full try again");//If the column is full it will tell you to choose another one
-    return(true);
+
+    return("true");
   }
   
   
@@ -69,7 +58,6 @@ public class connect4 {
       if(Character.compare(arr[x][i], color) == 0){ //compares coin and horizontal 
         winCounter += 1;
         if(winCounter == 4){ // if there is four in the row it will return true and say you win
-          System.out.println("You win Horizontally");
           return(true);
         }
       }
@@ -80,6 +68,7 @@ public class connect4 {
     return(false);
   }
   
+
   /**
    * Description: Checks the three underneath the the placed coin to see if it's 4 in a row
    * @param arr Taking in the board array
@@ -90,7 +79,6 @@ public class connect4 {
     int x = location[0];
     int y = location[1];
     if(Character.compare(arr[x][y], arr[x+1][y]) == 0 && Character.compare(arr[x][y], arr[x+2][y]) == 0 && Character.compare(arr[x][y], arr[x+3][y]) == 0){ //C
-      System.out.println("you win Vertically");
       return(true);
     }
     return(false);
@@ -110,22 +98,22 @@ public class connect4 {
       if(Character.compare(arr[x][y], color) == 0){
         winCounter += 1;
         if(winCounter == 4){
-          System.out.println("You win Diagonally left");
           return(true);
         }
       }
+      else winCounter = 0;
       x++;
       y++;
     }
     
     return(false);
   }
-  public static boolean winCheckRightDia(char[][] arr, int[] location){
+  public static boolean winCheckRightDia(int height, char[][] arr, int[] location){
     int x = location[0]; // x value
     int y = location[1]; // y value
     int winCounter = 0; // Counts until it reaches 4 
     char color = arr[x][y];// takes the color of the symbol
-    while((x > 0 & y < 6)){
+    while((x > 0 & y < height)){
       x--;
       y++;
     }
@@ -133,10 +121,11 @@ public class connect4 {
       if(Character.compare(arr[x][y], color) == 0){
         winCounter += 1;
         if(winCounter == 4){
-          System.out.println("You win Diagonally right");
           return(true);
         }
       }
+      else{
+        winCounter = 0;}
       x++;
       y--;
     }
@@ -216,14 +205,82 @@ public class connect4 {
       moveSelect = reader.nextInt() - 1;
       
       if(moveSelect < 0  || moveSelect >= width){
-        System.out.println("haha good try \n please choose a number from 1-7");
+        System.out.println("haha good try \nPlease choose a number from 1-7");
       }
       
     }while(moveSelect < 0  || moveSelect >= width);
     return moveSelect;
   }
   
-  
+
+  /**
+   * Description: computers turn does everything concering the selection process  
+   * @param playerColor takes in the color of the coin
+   * @param board takes in the board
+   * @param location coords of coin placed
+   * @return will either return the winning mvoe or it will return a random value
+   */
+  public static int aiMove(int height, char playerColor, char[][] board, int[] location){
+    Random rand = new Random();
+    ArrayList<Integer> aiDoNot = new ArrayList<Integer>(); // Create an ArrayList object because we need it for ai moves and to use contains()
+    int aiChoice;
+    aiDoNot.clear();
+
+    System.out.println("Computer Move");
+    for(int i = 1; i < 7; i++){ // cycles through and looks for a winning play
+      if(coinPlace(height, i, playerColor, board, location).equals("false")){// if it is a winning play it will return the spot
+        removeCoin(board, location);
+        return i;
+      }
+      removeCoin(board, location);
+    }
+    //Check for the enemy win and if it finds
+    playerColor = colorSwitch(playerColor);
+    for(int i = 1; i < 7; i++){
+      if(coinPlace(height, i, playerColor, board, location).equals("false")){// if it is enemy win it will place it return the spot
+        removeCoin(board, location);
+        return i;
+      }
+      removeCoin(board, location);
+    }
+
+    for(int i = 1; i < 7; i++){//checks if the next move that it makes is going to let the opponet win off them
+      if(!coinPlace(height, i, playerColor, board, location).equals("tryagain")){//makes sure not to run when it's a invalide spot
+        if(location[0] != 0){
+          if(coinPlace(height, i, playerColor, board, location).equals("false")){
+            aiDoNot.add(i);
+          }
+
+          removeCoin(board, location);//removes the placed coins that were used for checking
+          location[0] = location[0] + 1;
+          removeCoin(board, location);
+        }
+        else{
+          removeCoin(board, location);
+        }
+      }
+    }
+    
+    do{
+      aiChoice = rand.nextInt(7);//generate random int that is not a lose situtation
+    }while(aiDoNot.contains(aiChoice));
+    return aiChoice;
+  }
+
+
+
+
+  /**
+   * Description: This will remove the last placed coin useful for win checks
+   * @param board this takes in the board
+   * @param location this takes the loaction of last placed coin
+   */
+  public static void removeCoin(char[][] board, int[] location){
+    board[location[0]][location[1]] = '0'; 
+  }
+
+
+
   /**
    * Description: Takes in the color and then it changes it to the other color
    * @param color takes in the current color
@@ -250,7 +307,7 @@ public class connect4 {
     Scanner reader = new Scanner(System.in); //Creates the Scanner
     char playerColor = 'R';
     boolean gamemode;
-    boolean running = true;
+    String running = "true";
     int player = 1; // 1 represents a player/On | 0 represents ai/Off
     
     
@@ -259,10 +316,15 @@ public class connect4 {
     colorSwitch(playerColor);
     printArray(gridArray);
     
-    while(running){
+    while(running.equals("true")){
       if (player == 1) { // This is the player move
         //Player move
-        running = coinPlace(playerMove(reader, length), playerColor, gridArray, locationSave);
+        
+        do{
+        System.out.println(playerColor + " Move");
+        running = coinPlace(height, playerMove(reader, length), playerColor, gridArray, locationSave);
+        System.out.println(locationSave[0]);
+        }while(running.equals("try again"));
         printArray(gridArray);
         if (gamemode) {//If gamemode is true it will go 
           player = 0;         
@@ -270,41 +332,21 @@ public class connect4 {
         }
         playerColor = colorSwitch(playerColor);
       }
-      else { // for PvC it will also start on the first one but it will switch between if and else because it will switch turms with ai and player
-        //player
+      else { // Ai
+
+        
         playerColor = colorSwitch(playerColor);
-        running = coinPlace(aiMove(playerColor, gridArray, locationSave), playerColor, gridArray, locationSave);
+        do{
+        running = coinPlace(height, aiMove(height, playerColor, gridArray, locationSave), playerColor, gridArray, locationSave);
+        }while(running.equals("try again"));
         printArray(gridArray);
         playerColor = colorSwitch(playerColor);
         player = 1;
       }      
     }
+    playerColor = colorSwitch(playerColor);
+    printArray(gridArray);
+    System.out.println(playerColor + " wins the game");
     reader.close();
-    
-  }
-  /**
-   * Description: will check for a win and it will place randomly if there is no win
-   * @param playerColor takes in the color of the coin
-   * @param board takes in the board
-   * @param location cords of coin placed
-   * @return will either return the winning mvoe or it will return a random value
-   */
-  public static int aiMove(char playerColor, char[][] board, int[] location){
-    Random rand = new Random();
-    
-    for(int i = 1; i < 7; i++){ // cycles through and looks for a winning play
-      if(coinPlace(i, playerColor, board, location) == false){// if it is a winning play it will return the spot
-        removeCoin(board, location);
-        return i;
-      }
-      
-      else{//removes the placed coin if it isn't the winning play
-        removeCoin(board, location);
-      }
-    }
-    return rand.nextInt(7);//generate random intv;
-  }
-  public static void removeCoin(char[][] board, int[] location){
-    board[location[0]][location[1]] = '0'; 
   }
 }
